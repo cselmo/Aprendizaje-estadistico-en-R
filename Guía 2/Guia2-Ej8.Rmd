@@ -1,0 +1,199 @@
+---
+title: "Guía 2 - Ejercicio 8"
+output: html_notebook
+---
+
+8. Efectúe una clasificación por LDA de los datos abalone.txt, discriminando entre adulto e
+infante, utilizando aquellas variables que considere más pertinenes. Elija el mejor modelo, usando
+criterio, sentido común y alguno de los métdos propuestos vistos en clase para determinarlo. Se
+recomienda separar inicialmente un 20 %, 30 % de lo datos para poder hacer la evaluación final a
+través de una matriz de confusión.
+Antes que nada, se cargará el dataset con el que se trabajará:
+
+```{r}
+#library(caret) #Para la matriz de confusión y tratamiento de resultados
+library(MASS)
+library("dplyr")
+library("ggpubr")
+library("nortest")
+# Cargo los datos
+mydata<-read.table("abalone.txt", sep=",", col.names=c("Género", "Longitud", "Diámetro","Altura","Peso completo","Peso Carne","Peso Vísceras","Peso Caparazón","Anillos"))
+```
+Visualicemos la estructura de estos datos:
+```{r}
+head(mydata)
+```
+Agreguemos ahora una columna que contenga la categoría "Adulto" o "Infante". La misma se calculará a partir de la columna "Género". Si es "F" o "M" será "A" de adulto. Si es "I" se dejará "I".
+```{r}
+summary(mydata)
+```
+
+```{r}
+mydata$Adulto <- FALSE
+mydata$Adulto[mydata$Género== "M"] <- TRUE
+mydata$Adulto[mydata$Género == "F"] <- TRUE
+head(mydata)
+```
+El siguiente paso es corroborar las suposiciones sobre las que se basa el método de LDA. Ellas son:
+
+- Normalidad de las variables
+- Homogeneidad de la varianza
+- Incorrelación de los predictores
+- Independencia de las observaciones
+
+## Normalidad de las variables
+
+Vamos a aplicar dos métodos para verificar la normalidad de las variables:
+
+- qqplot: inspección visual
+- Lilliefors: Similar al método de Kolmogorov-Smirnov pero cuando se desconocen media y desvío estandar.
+
+El método de Shapiro-Wilk no se aplicará ya que está recomendado para menos de 50 observaciones.  
+Si bien el método de Kolmogorov-Smirnov (K-S) está recomendado para más de 50 observaciones, darpara aplicarlo lo mejor es conocer la media y el desvío estandar y no sus estimaciones.
+
+Las variables que se van a considerar en principio son todas, es decir:
+
+Longitud, Diámetro, Altura, Peso Completo, Peso Carne, Peso Vísceras, Peso Caparazón, Anillos
+
+Empecemos analizando la variable Longitud:
+
+```{r}
+ggqqplot(train$Longitud,main = "qqplot de Longitud")
+ggqqplot(train$Diámetro,main = "qqplot de Diámetro")
+ggqqplot(train$Altura,main = "qqplot de Altura")
+ggqqplot(train$Peso.completo ,main = "qqplot de Peso Completo")
+ggqqplot(train$Peso.Carne,main = "qqplot de Peso Carne")
+ggqqplot(train$Peso.Víscera,main = "qqplot de Peso Víscera")
+ggqqplot(train$Peso.Caparazón,main = "qqplot de Peso Caparazón")
+ggqqplot(train$Anillos,main = "qqplot de Cantidad de Anillos")
+
+```
+Se observa en las figuras anteriores que alrededor de la zona central de la distribución, en general se cumple la suposición de normalidad, pero esta suposición se pierde hacia los bordes. Ello es esperable, ya que longitudes, pesos y cantidades no pueden tomar valores negativos en la práctica, pero están definidos para una distribución normal. Es por ello que a simple vista se observa que no se cumple la condición de normalidad.
+Vamos a verificar esto con el test de Shapiro-Wilk, el cual establece un test de hipótesis para la condición de normalidad de una variable. Si bien el método de Shapiro-Wilk
+
+```{r}
+lillie.test(train$Longitud)
+```
+```{r}
+lillie.test(train$Diámetro)
+```
+```{r}
+lillie.test(train$Altura)
+```
+```{r}
+lillie.test(train$Peso.completo)
+```
+```{r}
+lillie.test(train$Peso.Carne)
+```
+```{r}
+lillie.test(train$Peso.Vísceras)
+```
+```{r}
+lillie.test(train$Peso.Caparazón)
+```
+```{r}
+lillie.test(train$Anillos)
+```
+
+Todos los p-value están muy por debajo del valor de corte de 0.05, el cual es el que debe ser superado para poder suponer normalidad.
+Si bien no se cumple la condición de normalidad, seguiremos adelante con el método ya que muchas veces da buenos resultados sin cumplir esta condición.
+
+## Incorrelación de los predictores
+
+Para estudiar la incorrelación de los predictores, haremos un análisis de las componentes principales de los predictores del dataset. 
+
+```{r}
+data_pca <- prcomp(train[2:9],
+                 center = TRUE,
+                 scale. = TRUE) 
+data_pca$sdev
+```
+Analizo la energía contenida en cada una de las componentes acumuladas.
+
+```{r}
+energía = data_pca$sdev ** 2
+print("La energía capturada por cada una de las componentes de PCA es:")
+print(energía)
+print("La energía total es:")
+print(sum(energía))
+for(i in seq(1:8)){
+  cat("Las primeras i componentes de pca capturan el", sum(energía[1:i])/sum(energía)*100,"% de la energía \n")
+}
+```
+De acuerdo a lo analizado anteriormente nos quedaremos con las primeras cinco componentes de PCA, las cuales son ortogonales y capturan el 99% de la energía de los datos de entrada.
+Esto permite no utilizar variables correlacionadas en LDA. Lo que debemos hacer ahora es 
+
+
+## Homogeneidad de la varianza / covarianza
+
+Para el caso de la homogeneidad de la varianza seremos mas rigurosos ya que en el caso de no cumplirse debemos utilizar el método QDA en vez del LDA.
+Utilizaremos el test MBox. 
+```{r}
+leveneTest(Adulto ~ , data=tg)
+```
+
+```{r}
+data_size=nrow(mydata)
+train_size <- floor(0.7 * data_size)
+## set the seed to make your partition reproducible
+set.seed(123)
+train_ind <- sample(seq_len(data_size), size = train_size)
+train <- mydata[train_ind, ] #training set
+test <- mydata[-train_ind, ] #test set
+
+# Ahora la regresión logística
+model <- lda(Adulto ~Peso.completo+Anillos+Longitud, data=train)
+summary(model)
+
+
+
+#Calculo la matriz de confusión para un valor de umbral determinado
+calcula_roc<-function(truth, predict,delta) {
+  ##a partir del ground truth y la predicción, voy calculando TPR y FRP a intervalos de delta
+  ##grafico la crva y devuelvo el delta para el cual la curva ROC mas se acerca al punto (0,1)
+  min_dist=1
+  best_theta=0
+  best_tpr=0
+  best_fpr=0
+  TPR=c(0)
+  DISTANCE=c(1)
+  FPR=c(0)
+  for (theta in seq(0.1,0.99,by=delta)) 
+  {
+    xtab <- table(truth, pred=predict>theta)
+    print(xtab)
+    tpr <- xtab[2,2]/(xtab[2,1]+xtab[2,2])
+    fpr <- xtab[1,2]/(xtab[1,2]+xtab[1,1])
+    TPR<-c(TPR,tpr)
+    FPR<-c(FPR,fpr)
+    distance <- dist(rbind(c(0,1),c(fpr,tpr)))
+    DISTANCE <- c(DISTANCE,distance)
+    print(distance)
+    if (distance < min_dist){
+      print(theta)
+      best_tpr=tpr
+      best_fpr=fpr
+      best_theta=theta
+      min_dist=distance
+    }
+  }
+  print(TPR)
+  print(FPR)
+  plot(FPR, TPR, main="Curva ROC", 
+  	xlab="FPR ", ylab="TPR ", pch=19, asp=1)
+  points(best_fpr,best_tpr, col='red',pch=19, lwd=10) 
+  plot(c(0,seq(0.1,0.9,by=delta)), DISTANCE, main="Distancia del punto de ROC a (0,1)", 
+  	xlab="Theta", ylab="Distancia ", pch=19, asp=1)
+  print("El valor de umbral correspondiente a la curva ROC que está mas cerca del punto (0,1) es:")
+  print(best_theta)
+}
+
+
+#Predicción de los valores de probabilidad de ser adulto utilizando el modelo generado anteriormente
+pred <- predict(model, train,type="response")$class
+pred == train$Adulto
+test$predict_Adulto<-predict(model, test,type="response")
+head(test)
+calcula_roc(train$Adulto,pred,0.1)
+```

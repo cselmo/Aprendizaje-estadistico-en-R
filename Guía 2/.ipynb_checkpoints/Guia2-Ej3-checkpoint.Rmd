@@ -1,0 +1,98 @@
+---
+title: "Guía 2 - Ejercicio 3"
+output: html_notebook
+---
+
+3. Consideremos para el data set abalone.txt el modelo de clasificación logística basado en la
+longitud, el peso total y la cantidad de anillos (realizado en el ejercicio 1, ítem d). En vez de considerar el umbral de clasificación en 0.5, probaremos distintos valores en una grilla entre 0 y 1. Una vez entrenado el clasificador logístico usando un 70 % de los datos, consideremos diversos valores de corte para el umbral para hacer el análisis sobre el 30 % restante de los datos de evaluación. Para cada uno de esos umbrales θ, calcular:
+
+$$TPR(θ) = \frac{TP(θ)}{TP(θ) + FN(θ)}$$
+$$FPR(θ) = \frac{FP(θ)}{TN(θ) + FP(θ)}$$
+
+Graficamos entonces una curva de FPR (eje x) vs TPR (eje y), llamada la curva ROC. El punto
+(0,1) del espacio ROC corresponde a un clasificador óptimo. Cualquier punto en la diagonal sería un clasificador perfectamente aleeatorio, mientras que en (1,0) tendremos un clasificador perfectamente malo (que también es óptimo si uno invierte sus interpretaciones).  
+Para cada umbral, calcular la distancia del punto (fpr, tpr) con respecto al vértice (0,1) o (1,0) más cercano.  
+Graficar una curva de umbral vs distancia y determinar así el mejor umbral. Arme la matriz de confusión correspondiente a dicho umbral con el 30 % de los datos separados.
+
+Antes que nada, se cargará el dataset con el que se trabajará:
+
+```{r}
+library(caret) #Para la matriz de confusión y tratamiento de resultados
+mydata<-read.table("abalone.txt", sep=",", col.names=c("Género", "Longitud", "Diámetro","Altura","Peso completo","Peso Carne","Peso Vísceras","Peso Caparazón","Anillos"))
+```
+Visualicemos la estructura de estos datos:
+```{r}
+head(mydata)
+```
+Agreguemos ahora una columna que contenga la categoría "Adulto" o "Infante". La misma se calculará a partir de la columna "Género". Si es "F" o "M" será "A" de adulto. Si es "I" se dejará "I".
+
+```{r}
+mydata$Adulto <- FALSE
+mydata$Adulto[mydata$Género== "M"] <- TRUE
+mydata$Adulto[mydata$Género == "F"] <- TRUE
+head(mydata)
+```
+Vamos a definir ahora un modelo de regresión logística en el que a partir de: Longitud, Peso completo y cantidad de Anillos podamos predecir si el abalone es adulto o infante, para lo cual lo primero que debemos hacer es separar el dataset en train y test:
+
+```{r}
+data_size=nrow(mydata)
+train_size <- floor(0.7 * data_size)
+## set the seed to make your partition reproducible
+set.seed(123)
+train_ind <- sample(seq_len(data_size), size = train_size)
+train <- mydata[train_ind, ] #training set
+test <- mydata[-train_ind, ] #test set
+
+# Ahora la regresión logística
+model <- glm(Adulto ~Peso.completo+Anillos+Longitud,family=binomial(link='logit'),data=train)
+summary(model)
+
+#Predicción de los valores de probabilidad de ser adulto utilizando el modelo generado anteriormente
+train$predict_Adulto<-predict(model, train,type="response")
+head(train)
+test$predict_Adulto<-predict(model, test,type="response")
+head(test)
+
+#Calculo la matriz de confusión para un valor de umbral determinado
+calcula_roc<-function(truth, predict,delta) {
+  ##a partir del ground truth y la predicción, voy calculando TPR y FRP a intervalos de delta
+  ##grafico la crva y devuelvo el delta para el cual la curva ROC mas se acerca al punto (0,1)
+  min_dist=1
+  best_theta=0
+  best_tpr=0
+  best_fpr=0
+  TPR=c(0)
+  DISTANCE=c(1)
+  FPR=c(0)
+  for (theta in seq(0.1,0.99,by=delta)) 
+  {
+    xtab <- table(truth, pred=predict>theta)
+    print(xtab)
+    tpr <- xtab[2,2]/(xtab[2,1]+xtab[2,2])
+    fpr <- xtab[1,2]/(xtab[1,2]+xtab[1,1])
+    TPR<-c(TPR,tpr)
+    FPR<-c(FPR,fpr)
+    distance <- dist(rbind(c(0,1),c(fpr,tpr)))
+    DISTANCE <- c(DISTANCE,distance)
+    print(distance)
+    if (distance < min_dist){
+      print(theta)
+      best_tpr=tpr
+      best_fpr=fpr
+      best_theta=theta
+      min_dist=distance
+    }
+  }
+  print(TPR)
+  print(FPR)
+  plot(FPR, TPR, main="Curva ROC", 
+  	xlab="FPR ", ylab="TPR ", pch=19, asp=1)
+  points(best_fpr,best_tpr, col='red',pch=19, lwd=10) 
+  plot(c(0,seq(0.1,0.99,by=delta)), DISTANCE, main="Distancia del punto de ROC a (0,1)", 
+  	xlab="Theta", ylab="Distancia ", pch=19, asp=1)
+  print("El valor de umbral correspondiente a la curva ROC que está mas cerca del punto (0,1) es:")
+  print(best_theta)
+}
+
+calcula_roc(train$Adulto,train$predict_Adulto,0.01)
+```

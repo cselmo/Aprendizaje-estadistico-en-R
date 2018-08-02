@@ -1,0 +1,1047 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Untitled}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Guía 2 - Ejercicio 8}\label{guuxeda-2---ejercicio-8}
+
+Efectúe una clasificación por LDA de los datos abalone.txt,
+discriminando entre adulto e infante, utilizando aquellas variables que
+considere más pertinenes. Elija el mejor modelo, usando criterio,
+sentido común y alguno de los métdos propuestos vistos en clase para
+determinarlo. Se recomienda separar inicialmente un 20 \%, 30 \% de lo
+datos para poder hacer la evaluación final a través de una matriz de
+confusión.
+
+Antes que nada, se cargará el dataset con el que se trabajará:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{k+kn}{library}\PY{p}{(}MASS\PY{p}{)}
+         \PY{k+kn}{library}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{dplyr\PYZdq{}}\PY{p}{)}
+         \PY{k+kn}{library}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{ggpubr\PYZdq{}}\PY{p}{)}
+         \PY{k+kn}{library}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{nortest\PYZdq{}}\PY{p}{)}
+         \PY{k+kn}{library}\PY{p}{(}grid\PY{p}{)}
+         \PY{k+kn}{library}\PY{p}{(}gridExtra\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Cargo los datos}
+         mydata\PY{o}{\PYZlt{}\PYZhy{}}read.table\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{abalone.txt\PYZdq{}}\PY{p}{,} sep\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{,\PYZdq{}}\PY{p}{,} col.names\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Género\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{Longitud\PYZdq{}}\PY{p}{,} 
+                                                                \PY{l+s}{\PYZdq{}}\PY{l+s}{Diámetro\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Altura\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Peso completo\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Carne\PYZdq{}}\PY{p}{,}
+                                                                \PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Vísceras\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Caparazón\PYZdq{}}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Anillos\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    Visualicemos la estructura de estos datos:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{k+kp}{head}\PY{p}{(}mydata\PY{p}{)}
+         \PY{k+kp}{summary}\PY{p}{(}mydata\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|lllllllll}
+ Género & Longitud & Diámetro & Altura & Peso.completo & Peso.Carne & Peso.Vísceras & Peso.Caparazón & Anillos\\
+\hline
+	 M      & 0.455  & 0.365  & 0.095  & 0.5140 & 0.2245 & 0.1010 & 0.150  & 15    \\
+	 M      & 0.350  & 0.265  & 0.090  & 0.2255 & 0.0995 & 0.0485 & 0.070  &  7    \\
+	 F      & 0.530  & 0.420  & 0.135  & 0.6770 & 0.2565 & 0.1415 & 0.210  &  9    \\
+	 M      & 0.440  & 0.365  & 0.125  & 0.5160 & 0.2155 & 0.1140 & 0.155  & 10    \\
+	 I      & 0.330  & 0.255  & 0.080  & 0.2050 & 0.0895 & 0.0395 & 0.055  &  7    \\
+	 I      & 0.425  & 0.300  & 0.095  & 0.3515 & 0.1410 & 0.0775 & 0.120  &  8    \\
+\end{tabular}
+
+
+    
+    
+    \begin{verbatim}
+ Género      Longitud        Diámetro          Altura       Peso.completo   
+ F:1307   Min.   :0.075   Min.   :0.0550   Min.   :0.0000   Min.   :0.0020  
+ I:1342   1st Qu.:0.450   1st Qu.:0.3500   1st Qu.:0.1150   1st Qu.:0.4415  
+ M:1528   Median :0.545   Median :0.4250   Median :0.1400   Median :0.7995  
+          Mean   :0.524   Mean   :0.4079   Mean   :0.1395   Mean   :0.8287  
+          3rd Qu.:0.615   3rd Qu.:0.4800   3rd Qu.:0.1650   3rd Qu.:1.1530  
+          Max.   :0.815   Max.   :0.6500   Max.   :1.1300   Max.   :2.8255  
+   Peso.Carne     Peso.Vísceras    Peso.Caparazón      Anillos      
+ Min.   :0.0010   Min.   :0.0005   Min.   :0.0015   Min.   : 1.000  
+ 1st Qu.:0.1860   1st Qu.:0.0935   1st Qu.:0.1300   1st Qu.: 8.000  
+ Median :0.3360   Median :0.1710   Median :0.2340   Median : 9.000  
+ Mean   :0.3594   Mean   :0.1806   Mean   :0.2388   Mean   : 9.934  
+ 3rd Qu.:0.5020   3rd Qu.:0.2530   3rd Qu.:0.3290   3rd Qu.:11.000  
+ Max.   :1.4880   Max.   :0.7600   Max.   :1.0050   Max.   :29.000  
+    \end{verbatim}
+
+    
+    Agreguemos ahora una columna que contenga la categoría "Adulto" o
+"Infante". La misma se calculará a partir de la columna "Género". Si es
+"F" o "M" será "A" de adulto. Si es "I" se dejará "I".
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} mydata\PY{o}{\PYZdl{}}Adulto \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{FALSE}
+         mydata\PY{o}{\PYZdl{}}Adulto\PY{p}{[}mydata\PY{o}{\PYZdl{}}Género\PY{o}{==} \PY{l+s}{\PYZdq{}}\PY{l+s}{M\PYZdq{}}\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{TRUE}
+         mydata\PY{o}{\PYZdl{}}Adulto\PY{p}{[}mydata\PY{o}{\PYZdl{}}Género \PY{o}{==} \PY{l+s}{\PYZdq{}}\PY{l+s}{F\PYZdq{}}\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{TRUE}
+         \PY{k+kp}{head}\PY{p}{(}mydata\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|llllllllll}
+ Género & Longitud & Diámetro & Altura & Peso.completo & Peso.Carne & Peso.Vísceras & Peso.Caparazón & Anillos & Adulto\\
+\hline
+	 M      & 0.455  & 0.365  & 0.095  & 0.5140 & 0.2245 & 0.1010 & 0.150  & 15     &  TRUE \\
+	 M      & 0.350  & 0.265  & 0.090  & 0.2255 & 0.0995 & 0.0485 & 0.070  &  7     &  TRUE \\
+	 F      & 0.530  & 0.420  & 0.135  & 0.6770 & 0.2565 & 0.1415 & 0.210  &  9     &  TRUE \\
+	 M      & 0.440  & 0.365  & 0.125  & 0.5160 & 0.2155 & 0.1140 & 0.155  & 10     &  TRUE \\
+	 I      & 0.330  & 0.255  & 0.080  & 0.2050 & 0.0895 & 0.0395 & 0.055  &  7     & FALSE \\
+	 I      & 0.425  & 0.300  & 0.095  & 0.3515 & 0.1410 & 0.0775 & 0.120  &  8     & FALSE \\
+\end{tabular}
+
+
+    
+    El siguiente paso es corroborar las suposiciones sobre las que se basa
+el método de LDA. Ellas son:
+
+\begin{itemize}
+\tightlist
+\item
+  Normalidad de las variables
+\item
+  Homogeneidad de la varianza
+\item
+  Incorrelación de los predictores
+\end{itemize}
+
+\subsection{Normalidad de las
+variables}\label{normalidad-de-las-variables}
+
+Vamos a aplicar dos métodos para verificar la normalidad de las
+variables:
+
+\begin{itemize}
+\tightlist
+\item
+  qqplot: inspección visual
+\item
+  Lilliefors: Similar al método de Kolmogorov-Smirnov pero cuando se
+  desconocen media y desvío estandar.
+\end{itemize}
+
+El método de Shapiro-Wilk no se aplicará ya que está recomendado para
+menos de 50 observaciones.\\
+Si bien el método de Kolmogorov-Smirnov (K-S) está recomendado para más
+de 50 observaciones, darpara aplicarlo lo mejor es conocer la media y el
+desvío estandar y no sus estimaciones.
+
+Las variables que se van a considerar en principio son todas, es decir:
+
+Longitud, Diámetro, Altura, Peso Completo, Peso Carne, Peso Vísceras,
+Peso Caparazón, Anillos
+
+Empecemos analizando la variable Longitud:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}62}]:} data\PYZus{}size\PY{o}{=}\PY{k+kp}{nrow}\PY{p}{(}mydata\PY{p}{)}
+         train\PYZus{}size \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{floor}\PY{p}{(}\PY{l+m}{0.7} \PY{o}{*} data\PYZus{}size\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}\PYZsh{} set the seed to make your partition reproducible}
+         \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{123}\PY{p}{)}
+         train\PYZus{}ind \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{sample}\PY{p}{(}\PY{k+kp}{seq\PYZus{}len}\PY{p}{(}data\PYZus{}size\PY{p}{)}\PY{p}{,} size \PY{o}{=} train\PYZus{}size\PY{p}{)}
+         train \PY{o}{\PYZlt{}\PYZhy{}} mydata\PY{p}{[}train\PYZus{}ind\PY{p}{,} \PY{p}{]} \PY{c+c1}{\PYZsh{}training set}
+         test \PY{o}{\PYZlt{}\PYZhy{}} mydata\PY{p}{[}\PY{o}{\PYZhy{}}train\PYZus{}ind\PY{p}{,} \PY{p}{]} \PY{c+c1}{\PYZsh{}test set}
+         
+         g1 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Longitud\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Longitud\PYZdq{}}\PY{p}{)}
+         g2 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Diámetro\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Diámetro\PYZdq{}}\PY{p}{)}
+         g3 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Altura\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Altura\PYZdq{}}\PY{p}{)}
+         g4 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.completo \PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Completo\PYZdq{}}\PY{p}{)}
+         g5 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.Carne\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Carne\PYZdq{}}\PY{p}{)}
+         g6 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.Víscera\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Víscera\PYZdq{}}\PY{p}{)}
+         g7 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.Caparazón\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Peso Caparazón\PYZdq{}}\PY{p}{)}
+         g8 \PY{o}{\PYZlt{}\PYZhy{}} ggqqplot\PY{p}{(}train\PY{o}{\PYZdl{}}Anillos\PY{p}{,}main \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Anillos\PYZdq{}}\PY{p}{)}
+         g1grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g1\PY{p}{)}
+         g2grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g2\PY{p}{)}
+         g3grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g3\PY{p}{)}
+         g4grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g4\PY{p}{)}
+         g5grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g5\PY{p}{)}
+         g6grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g6\PY{p}{)}
+         g7grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g7\PY{p}{)}
+         g8grob \PY{o}{\PYZlt{}\PYZhy{}} ggplotGrob\PY{p}{(}g8\PY{p}{)}
+         grid.arrange\PY{p}{(}g1grob\PY{p}{,} g2grob\PY{p}{,}g3grob\PY{p}{,} g4grob\PY{p}{,}g5grob\PY{p}{,} g6grob\PY{p}{,}g7grob\PY{p}{,} g8grob\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Se observa en las figuras anteriores que alrededor de la zona central de
+la distribución, en general se cumple la suposición de normalidad, pero
+esta suposición se pierde hacia los bordes. Ello es esperable, ya que
+longitudes, pesos y cantidades no pueden tomar valores negativos en la
+práctica, pero están definidos para una distribución normal. Es por ello
+que a simple vista se observa que no se cumple la condición de
+normalidad. Vamos a verificar esta observación con el método de
+Lilliefors:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}63}]:} lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Longitud\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Diámetro\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Altura\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.completo\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.Carne\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.Vísceras\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Peso.Caparazón\PY{p}{)}
+         lillie.test\PY{p}{(}train\PY{o}{\PYZdl{}}Anillos\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Longitud
+D = 0.073756, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Diámetro
+D = 0.075032, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Altura
+D = 0.052729, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Peso.completo
+D = 0.049124, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Peso.Carne
+D = 0.055441, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Peso.Vísceras
+D = 0.05396, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Peso.Caparazón
+D = 0.047887, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    
+    \begin{verbatim}
+
+	Lilliefors (Kolmogorov-Smirnov) normality test
+
+data:  train$Anillos
+D = 0.14647, p-value < 2.2e-16
+
+    \end{verbatim}
+
+    
+    Todos los p-value están muy por debajo del valor de corte de 0.05, el
+cual es el que debe ser superado para poder suponer normalidad. Si bien
+no se cumple la condición de normalidad, seguiremos adelante con el
+método ya que muchas veces da buenos resultados sin cumplir esta
+condición.
+
+\subsection{Incorrelación de los
+predictores}\label{incorrelaciuxf3n-de-los-predictores}
+
+Para analizar la correlación de las variables veamos la matriz de
+correlación cruzada de los predictores:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}64}]:} \PY{c+c1}{\PYZsh{}Borro del trainset las columnas que no me sirven}
+         train\PY{o}{\PYZdl{}}Género \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+         train\PYZus{}labels \PY{o}{\PYZlt{}\PYZhy{}} train\PY{o}{\PYZdl{}}Adulto
+         train\PY{o}{\PYZdl{}}Adulto \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}65}]:} \PY{k+kn}{library}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Hmisc\PYZdq{}}\PY{p}{)}
+         res2 \PY{o}{\PYZlt{}\PYZhy{}} rcorr\PY{p}{(}\PY{k+kp}{as.matrix}\PY{p}{(}train\PY{p}{)}\PY{p}{)}
+         res2
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+               Longitud Diámetro Altura Peso.completo Peso.Carne Peso.Vísceras
+Longitud           1.00     0.99   0.80          0.92       0.90          0.90
+Diámetro           0.99     1.00   0.81          0.93       0.90          0.90
+Altura             0.80     0.81   1.00          0.80       0.76          0.78
+Peso.completo      0.92     0.93   0.80          1.00       0.97          0.97
+Peso.Carne         0.90     0.90   0.76          0.97       1.00          0.93
+Peso.Vísceras      0.90     0.90   0.78          0.97       0.93          1.00
+Peso.Caparazón     0.90     0.90   0.80          0.95       0.88          0.91
+Anillos            0.56     0.57   0.54          0.54       0.42          0.51
+               Peso.Caparazón Anillos
+Longitud                 0.90    0.56
+Diámetro                 0.90    0.57
+Altura                   0.80    0.54
+Peso.completo            0.95    0.54
+Peso.Carne               0.88    0.42
+Peso.Vísceras            0.91    0.51
+Peso.Caparazón           1.00    0.63
+Anillos                  0.63    1.00
+
+n= 2923 
+
+
+P
+               Longitud Diámetro Altura Peso.completo Peso.Carne Peso.Vísceras
+Longitud                 0        0      0             0          0           
+Diámetro        0                 0      0             0          0           
+Altura          0        0               0             0          0           
+Peso.completo   0        0        0                    0          0           
+Peso.Carne      0        0        0      0                        0           
+Peso.Vísceras   0        0        0      0             0                      
+Peso.Caparazón  0        0        0      0             0          0           
+Anillos         0        0        0      0             0          0           
+               Peso.Caparazón Anillos
+Longitud        0              0     
+Diámetro        0              0     
+Altura          0              0     
+Peso.completo   0              0     
+Peso.Carne      0              0     
+Peso.Vísceras   0              0     
+Peso.Caparazón                 0     
+Anillos         0                    
+    \end{verbatim}
+
+    
+    Según se ve, las métricas lineales (Longitud, Diámetro y altura) están
+altamente correlacionadas. Eliminaremos los predictores Diámetro y nos
+quedaremos con Longitud y Altura (que tienen una correlción de 0.8).
+También es notable la alta correlación que hay entre los cuatro pesos:
+Completo, Carne, Vísceras y Caparazón. Siendo que casi todas estas
+correlaciones están por encima de 0.9, nos quedaremos solo con dos de
+ellos: Peso Caparazón y Peso Carne, que tienen una correlación de 0.88.
+Por último conservaremos Anillos que tiene correlación mas baja con
+respecto a todas las variables.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}66}]:} train\PY{o}{\PYZdl{}}Diámetro \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+         train\PY{o}{\PYZdl{}}Peso.completo \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+         train\PY{o}{\PYZdl{}}Peso.Vísceras \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+         res2 \PY{o}{\PYZlt{}\PYZhy{}} rcorr\PY{p}{(}\PY{k+kp}{as.matrix}\PY{p}{(}train\PY{p}{)}\PY{p}{)}
+         res2
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+               Longitud Altura Peso.Carne Peso.Caparazón Anillos
+Longitud           1.00   0.80       0.90           0.90    0.56
+Altura             0.80   1.00       0.76           0.80    0.54
+Peso.Carne         0.90   0.76       1.00           0.88    0.42
+Peso.Caparazón     0.90   0.80       0.88           1.00    0.63
+Anillos            0.56   0.54       0.42           0.63    1.00
+
+n= 2923 
+
+
+P
+               Longitud Altura Peso.Carne Peso.Caparazón Anillos
+Longitud                 0      0          0              0     
+Altura          0               0          0              0     
+Peso.Carne      0        0                 0              0     
+Peso.Caparazón  0        0      0                         0     
+Anillos         0        0      0          0                    
+    \end{verbatim}
+
+    
+    Si bien una de las hipótesis de LDA es que los predictores son
+incorrelacionados, seguiremos método adelante para evaluar cómo funciona
+para este caso.
+
+\subsection{Homogeneidad de la varianza /
+covarianza}\label{homogeneidad-de-la-varianza-covarianza}
+
+Para el caso de la homogeneidad de la varianza seremos mas rigurosos ya
+que en el caso de no cumplirse debemos utilizar el método QDA en vez del
+LDA. En el caso de fallar el test, utilizaremos QDA y LDA y compararemos
+los resultados. Se utilizará el test de Levene para evaluar la
+homogeneidad de la varianza.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}78}]:} train\PY{o}{\PYZdl{}}Adulto \PY{o}{\PYZlt{}\PYZhy{}} train\PYZus{}labels
+         train1 \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{[}train\PY{p}{[}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Adulto\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{k+kc}{TRUE}\PY{p}{,}\PY{p}{]}
+         train2 \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{[}train\PY{p}{[}\PY{p}{,}\PY{l+s}{\PYZdq{}}\PY{l+s}{Adulto\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{k+kc}{FALSE}\PY{p}{,}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}80}]:} cov\PY{p}{(}train1\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|llllll}
+  & Longitud & Altura & Peso.Carne & Peso.Caparazón & Anillos & Adulto\\
+\hline
+	Longitud & 0.009299901 & 0.002539260 & 0.01811298  & 0.010833319 & 0.09051062  & 0          \\
+	Altura & 0.002539260 & 0.001600666 & 0.00531709  & 0.003530592 & 0.03815249  & 0          \\
+	Peso.Carne & 0.018112976 & 0.005317090 & 0.04484518  & 0.022612197 & 0.10326779  & 0          \\
+	Peso.Caparazón & 0.010833319 & 0.003530592 & 0.02261220  & 0.017029547 & 0.18943797  & 0          \\
+	Anillos & 0.090510621 & 0.038152488 & 0.10326779  & 0.189437970 & 9.81693290  & 0          \\
+	Adulto & 0.000000000 & 0.000000000 & 0.00000000  & 0.000000000 & 0.00000000  & 0          \\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}81}]:} cov\PY{p}{(}train2\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{tabular}{r|llllll}
+  & Longitud & Altura & Peso.Carne & Peso.Caparazón & Anillos & Adulto\\
+\hline
+	Longitud & 0.011911119 & 0.003181267 & 0.012478980 & 0.008431423 & 0.19095927  & 0          \\
+	Altura & 0.003181267 & 0.001014043 & 0.003475478 & 0.002426964 & 0.05894278  & 0          \\
+	Peso.Carne & 0.012478980 & 0.003475478 & 0.016321189 & 0.009922771 & 0.20317507  & 0          \\
+	Peso.Caparazón & 0.008431423 & 0.002426964 & 0.009922771 & 0.007231195 & 0.15800704  & 0          \\
+	Anillos & 0.190959272 & 0.058942782 & 0.203175070 & 0.158007040 & 6.44899289  & 0          \\
+	Adulto & 0.000000000 & 0.000000000 & 0.000000000 & 0.000000000 & 0.00000000  & 0          \\
+\end{tabular}
+
+
+    
+    Si bien lo correcto sería analizar la varianza del estimador de
+covarianza y hacer un test de hipótesis para la igualdad de ambas
+matrices de covarianza, se intuye que no se cumple la condición de
+homosedasticidad, por lo que evaluaremos el clasificador que obtenemos
+con LDA con el que obtenemos con QDA y sacaremos algunas conclusiones.
+
+\section{Clasificador utilizando LDA}\label{clasificador-utilizando-lda}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}86}]:} clf \PY{o}{\PYZlt{}\PYZhy{}} lda\PY{p}{(}formula \PY{o}{=} Adulto \PY{o}{\PYZti{}} \PY{l+m}{.}\PY{p}{,} data \PY{o}{=} train\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}96}]:} \PY{c+c1}{\PYZsh{} Probabilidades a priori}
+         clf\PY{o}{\PYZdl{}}prior
+\end{Verbatim}
+
+
+    \begin{description*}
+\item[FALSE] 0.327403352719808
+\item[TRUE] 0.672596647280192
+\end{description*}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}97}]:} \PY{c+c1}{\PYZsh{} conteo de observaciones de cada una de las clases}
+         clf\PY{o}{\PYZdl{}}counts
+\end{Verbatim}
+
+
+    \begin{description*}
+\item[FALSE] 957
+\item[TRUE] 1966
+\end{description*}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}98}]:} \PY{c+c1}{\PYZsh{} Medias de cada uno de los predictores}
+         clf\PY{o}{\PYZdl{}}means
+\end{Verbatim}
+
+
+    \begin{tabular}{r|lllll}
+  & Longitud & Altura & Peso.Carne & Peso.Caparazón & Anillos\\
+\hline
+	FALSE & 0.4243992 & 0.107419  & 0.1881526 & 0.1260658 &  7.829676\\
+	TRUE & 0.5702467 & 0.154649  & 0.4406887 & 0.2931923 & 10.941506\\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}100}]:} \PY{c+c1}{\PYZsh{} Estos son los valores de escalamiento de cada uno de los predictores en las dimensiones }
+          \PY{c+c1}{\PYZsh{} de LDA para generar las funciones de discriminación}
+          clf\PY{o}{\PYZdl{}}scaling
+\end{Verbatim}
+
+
+    \begin{tabular}{r|l}
+  & LD1\\
+\hline
+	Longitud & 3.1934379\\
+	Altura & 4.1704465\\
+	Peso.Carne & 1.8869373\\
+	Peso.Caparazón & 0.2623481\\
+	Anillos & 0.1253992\\
+\end{tabular}
+
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}102}]:} test\PY{o}{\PYZdl{}}Género \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Diámetro \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Peso.completo \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Peso.Vísceras \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PYZus{}labels \PY{o}{\PYZlt{}\PYZhy{}} test\PY{o}{\PYZdl{}}Adulto
+          test\PY{o}{\PYZdl{}}Adulto \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}103}]:} plda \PY{o}{=} predict\PY{p}{(}object \PY{o}{=} clf\PY{p}{,} \PY{c+c1}{\PYZsh{} predictions}
+                         newdata \PY{o}{=} test\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}112}]:} \PY{c+c1}{\PYZsh{}Medición del accuracy }
+          
+          \PY{k+kp}{sum}\PY{p}{(}test\PYZus{}labels\PY{o}{==}plda\PY{o}{\PYZdl{}}\PY{k+kp}{class}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}test\PYZus{}labels\PY{p}{)}
+\end{Verbatim}
+
+
+    0.791866028708134
+
+    
+    Con estas decisiones se ha logrado una precisión del 79\%. Veamos la
+matriz de confusión:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}141}]:} \PY{k+kn}{library}\PY{p}{(}SDMTools\PY{p}{)}
+          confusion.matrix\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}test\PYZus{}labels\PY{p}{)}\PY{p}{,} plda\PY{o}{\PYZdl{}}posterior\PY{p}{[}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{,} threshold \PY{o}{=} \PY{l+m}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+    obs
+pred   0   1
+   0 227 103
+   1 158 766
+attr(,"class")
+[1] "confusion.matrix"
+    \end{verbatim}
+
+    
+    Repitamos el proceso para todos los predictores
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}148}]:} \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{123}\PY{p}{)}
+          train\PYZus{}ind \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{sample}\PY{p}{(}\PY{k+kp}{seq\PYZus{}len}\PY{p}{(}data\PYZus{}size\PY{p}{)}\PY{p}{,} size \PY{o}{=} train\PYZus{}size\PY{p}{)}
+          train \PY{o}{\PYZlt{}\PYZhy{}} mydata\PY{p}{[}train\PYZus{}ind\PY{p}{,} \PY{p}{]} \PY{c+c1}{\PYZsh{}training set}
+          test \PY{o}{\PYZlt{}\PYZhy{}} mydata\PY{p}{[}\PY{o}{\PYZhy{}}train\PYZus{}ind\PY{p}{,} \PY{p}{]} \PY{c+c1}{\PYZsh{}test set}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}149}]:} train\PY{o}{\PYZdl{}}Género \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Género \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PYZus{}labels \PY{o}{\PYZlt{}\PYZhy{}} test\PY{o}{\PYZdl{}}Adulto
+          test\PY{o}{\PYZdl{}}Adulto \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          clf2 \PY{o}{\PYZlt{}\PYZhy{}} lda\PY{p}{(}formula \PY{o}{=} Adulto \PY{o}{\PYZti{}} \PY{l+m}{.}\PY{p}{,} data \PY{o}{=} train\PY{p}{)}
+          plda2 \PY{o}{=} predict\PY{p}{(}object \PY{o}{=} clf2\PY{p}{,} \PY{c+c1}{\PYZsh{} predictions}
+                         newdata \PY{o}{=} test\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{}Medición del accuracy }
+          \PY{k+kp}{sum}\PY{p}{(}test\PYZus{}labels\PY{o}{==}plda2\PY{o}{\PYZdl{}}\PY{k+kp}{class}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}test\PYZus{}labels\PY{p}{)}
+\end{Verbatim}
+
+
+    0.795055821371611
+
+    
+    En principio el cambio que se observa en el accuracy es despreciable.
+Veamos qué ocurre con la matriz de confusión.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}150}]:} confusion.matrix\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}test\PYZus{}labels\PY{p}{)}\PY{p}{,} plda2\PY{o}{\PYZdl{}}posterior\PY{p}{[}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{,} threshold \PY{o}{=} \PY{l+m}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+    obs
+pred   0   1
+   0 233 105
+   1 152 764
+attr(,"class")
+[1] "confusion.matrix"
+    \end{verbatim}
+
+    
+    Si la comparamos con la matriz del clasificador LDA con menos
+predictores, veremos que la diferencia es muy poca y que si bien la
+cantidad de verdaderos negativos aumentó con todos los predictores
+disponibles, la cantidad de verdaderos positivos disminuyó.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}152}]:} confusion.matrix\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}test\PYZus{}labels\PY{p}{)}\PY{p}{,} plda\PY{o}{\PYZdl{}}posterior\PY{p}{[}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{,} threshold \PY{o}{=} \PY{l+m}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+    obs
+pred   0   1
+   0 227 103
+   1 158 766
+attr(,"class")
+[1] "confusion.matrix"
+    \end{verbatim}
+
+    
+    \section{Clasificador utilizando QDA}\label{clasificador-utilizando-qda}
+
+En principio y por facilidad computacional (ya están preparados train y
+test) veremos qué pasa con QDA con todos los predictores:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}153}]:} clf3 \PY{o}{\PYZlt{}\PYZhy{}} qda\PY{p}{(}formula \PY{o}{=} Adulto \PY{o}{\PYZti{}} \PY{l+m}{.}\PY{p}{,} data \PY{o}{=} train\PY{p}{)}
+          plda3 \PY{o}{=} predict\PY{p}{(}object \PY{o}{=} clf3\PY{p}{,} \PY{c+c1}{\PYZsh{} predictions}
+                         newdata \PY{o}{=} test\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{}Medición del accuracy }
+          \PY{k+kp}{sum}\PY{p}{(}test\PYZus{}labels\PY{o}{==}plda3\PY{o}{\PYZdl{}}\PY{k+kp}{class}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}test\PYZus{}labels\PY{p}{)}
+\end{Verbatim}
+
+
+    0.749601275917065
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}154}]:} confusion.matrix\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}test\PYZus{}labels\PY{p}{)}\PY{p}{,} plda3\PY{o}{\PYZdl{}}posterior\PY{p}{[}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{,} threshold \PY{o}{=} \PY{l+m}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+    obs
+pred   0   1
+   0 322 251
+   1  63 618
+attr(,"class")
+[1] "confusion.matrix"
+    \end{verbatim}
+
+    
+    Y ahora veamos los mismos datos pero para el grupo de predictores
+reducidos:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}155}]:} train\PY{o}{\PYZdl{}}Diámetro \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          train\PY{o}{\PYZdl{}}Peso.completo \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          train\PY{o}{\PYZdl{}}Peso.Vísceras \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Diámetro \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Peso.completo \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          test\PY{o}{\PYZdl{}}Peso.Vísceras \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kc}{NULL}
+          clf4 \PY{o}{\PYZlt{}\PYZhy{}} qda\PY{p}{(}formula \PY{o}{=} Adulto \PY{o}{\PYZti{}} \PY{l+m}{.}\PY{p}{,} data \PY{o}{=} train\PY{p}{)}
+          plda4 \PY{o}{=} predict\PY{p}{(}object \PY{o}{=} clf4\PY{p}{,} \PY{c+c1}{\PYZsh{} predictions}
+                         newdata \PY{o}{=} test\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{}Medición del accuracy }
+          \PY{k+kp}{sum}\PY{p}{(}test\PYZus{}labels\PY{o}{==}plda4\PY{o}{\PYZdl{}}\PY{k+kp}{class}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}test\PYZus{}labels\PY{p}{)}
+\end{Verbatim}
+
+
+    0.75518341307815
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}156}]:} confusion.matrix\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}test\PYZus{}labels\PY{p}{)}\PY{p}{,} plda4\PY{o}{\PYZdl{}}posterior\PY{p}{[}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{,} threshold \PY{o}{=} \PY{l+m}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+    obs
+pred   0   1
+   0 320 242
+   1  65 627
+attr(,"class")
+[1] "confusion.matrix"
+    \end{verbatim}
+
+    
+    \subsection{Clasificador utilizando regresión
+logística}\label{clasificador-utilizando-regresiuxf3n-loguxedstica}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}162}]:} clf5 \PY{o}{\PYZlt{}\PYZhy{}} glm\PY{p}{(}formula \PY{o}{=} Adulto \PY{o}{\PYZti{}} \PY{l+m}{.}\PY{p}{,} family\PY{o}{=}binomial\PY{p}{(}link\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{logit\PYZsq{}}\PY{p}{)}\PY{p}{,}data \PY{o}{=} train\PY{p}{)}
+          plda5 \PY{o}{=} predict\PY{p}{(}object \PY{o}{=} clf5\PY{p}{,} \PY{c+c1}{\PYZsh{} predictions}
+                         newdata \PY{o}{=} test\PY{p}{)}
+          plda5\PY{o}{\PYZlt{}\PYZhy{}}predict\PY{p}{(}clf5\PY{p}{,} test\PY{p}{,}type\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{response\PYZdq{}}\PY{p}{)}
+          \PY{c+c1}{\PYZsh{}Medición del accuracy }
+          \PY{k+kp}{sum}\PY{p}{(}test\PYZus{}labels\PY{o}{\PYZhy{}}plda5\PY{o}{\PYZlt{}}\PY{l+m}{0.5}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}test\PYZus{}labels\PY{p}{)}
+\end{Verbatim}
+
+
+    0.901116427432217
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}163}]:} confusion.matrix\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}test\PYZus{}labels\PY{p}{)}\PY{p}{,} plda5\PY{p}{,} threshold \PY{o}{=} \PY{l+m}{0.5}\PY{p}{)}
+\end{Verbatim}
+
+
+    
+    \begin{verbatim}
+    obs
+pred   0   1
+   0 264 124
+   1 121 745
+attr(,"class")
+[1] "confusion.matrix"
+    \end{verbatim}
+
+    
+    \section{Resumen y conclusiones}\label{resumen-y-conclusiones}
+
+    Se aplicaron LDA y QDA para el dataset propuesto por la cátedra. Al
+verificar el cumplimiento de las hipótesis de LDA mencionadas
+anteriormente, se vió que no se cumple ninguna.\\
+De todas formas se probó el método eliminando predictores con alta
+correlación y se vió una mejora con respecto al uso de la probabilidad a
+priori (67\% contra 79\%, un 12 \% de mejoría). El uso de los
+predictores con fuerte correlación no provocó ninguna mejora
+significativa ni en el accuracy, ni en la matriz de confusión. Con QDA
+la performance bajó levemente, no necesariamente tenía que mejorar ya
+que no se cumplen las hipótesis del modelo probabilístico. Esta baja se
+vió tanto en el modelo con predictores reducidos, como con el uso de
+todos los predictores (74 y 75 \% de accuracy respectivamente). Para
+finalizar se hizo una clasificación con un regresor lineal y se obtuvo
+una mejora significativa con respecto a LDA, tanto en el accuracy (90\%)
+como en la matriz de confusión.
+
+En conclusión, si bien el clasificador LDA no alcanzó el rendimiento del
+regresor logístico, mostró resultados significativos a pesar de que los
+datos no cumplen con las hipótesis. Es por ello que ante un problema de
+clasificación se lo puede tener en cuenta a pesar de no ser el
+clasificador Bayesiano óptimo (si no se cumplen las hipótesis).
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
